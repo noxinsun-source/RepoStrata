@@ -1,11 +1,11 @@
 ---
 name: full-analysis
-description: One-command orchestrator. Runs the full RepoStrata pipeline — size check, architecture, call graph, data flow, paper discovery + innovation localization, deep L3+L4 function analysis, and final report. All in one command. Use when user invokes /full-analysis.
+description: One-command orchestrator. Runs the full DeepDecode pipeline — size check, architecture, call graph, data flow, paper discovery + innovation localization, deep L3+L4 function analysis, and final report. All in one command. Use when user invokes /full-analysis.
 ---
 
 # /full-analysis — 全流程一键编排
 
-**定位**：RepoStrata 的总指挥。一条命令启动完整分析 pipeline。  
+**定位**：DeepDecode 的总指挥。一条命令启动完整分析 pipeline。  
 内置**仓库规模评估**（原 preflight）和**结果合并**（原 merge-analysis），无需单独调用。
 
 ---
@@ -84,15 +84,15 @@ description: One-command orchestrator. Runs the full RepoStrata pipeline — siz
 ```bash
 # 克隆仓库（仅元数据，不下载 blob）
 git clone --depth=1 --filter=blob:none \
-  [REPO_URL] /tmp/repostrata-[repo名]/
+  [REPO_URL] /tmp/deepdecode-[repo名]/
 
 # 统计 Python 文件
-find /tmp/repostrata-[repo名]/ -name "*.py" \
+find /tmp/deepdecode-[repo名]/ -name "*.py" \
   ! -path "*/__pycache__/*" ! -path "*/test*" \
   ! -path "*/example*" | wc -l
 
 # 统计总行数
-find /tmp/repostrata-[repo名]/ -name "*.py" \
+find /tmp/deepdecode-[repo名]/ -name "*.py" \
   ! -path "*/__pycache__/*" \
   | xargs wc -l | tail -1
 ```
@@ -197,7 +197,7 @@ classDiagram
 ```bash
 # 从 README.md 中提取论文链接
 grep -oP 'https?://arxiv\.org/(abs|pdf)/[\d\.]+|https?://aclanthology\.org/\S+|https?://openreview\.net/forum\?id=\S+' \
-  /tmp/repostrata-[repo名]/README.md | head -3
+  /tmp/deepdecode-[repo名]/README.md | head -3
 ```
 
 若找到 → 使用该 URL，跳至论文获取

@@ -32,8 +32,8 @@ description: Side-by-side comparison of two repos solving the same problem. Iden
 ### Step 1：并行克隆两个 repo（仅元数据）
 
 ```bash
-git clone --depth=1 --filter=blob:none --sparse [URL1] /tmp/repostrata-repo1/ &
-git clone --depth=1 --filter=blob:none --sparse [URL2] /tmp/repostrata-repo2/ &
+git clone --depth=1 --filter=blob:none --sparse [URL1] /tmp/deepdecode-repo1/ &
+git clone --depth=1 --filter=blob:none --sparse [URL2] /tmp/deepdecode-repo2/ &
 wait
 ```
 

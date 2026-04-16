@@ -42,14 +42,14 @@ description: Deep single-function analysis. Given a repo URL (or local path) + f
 ```bash
 # 克隆（仅元数据）
 git clone --depth=1 --filter=blob:none --sparse \
-  [URL] /tmp/repostrata-[repo]/
+  [URL] /tmp/deepdecode-[repo]/
 
 # 稀疏检出目标文件
-git -C /tmp/repostrata-[repo]/ sparse-checkout set [file.py]
-git -C /tmp/repostrata-[repo]/ checkout
+git -C /tmp/deepdecode-[repo]/ sparse-checkout set [file.py]
+git -C /tmp/deepdecode-[repo]/ checkout
 
 # 提取目标函数（从 def 开始到下一个同级 def 结束）
-grep -n "def [func_name]\|class [class_name]" /tmp/repostrata-[repo]/[file.py]
+grep -n "def [func_name]\|class [class_name]" /tmp/deepdecode-[repo]/[file.py]
 # → 得到行号范围，用 sed 提取
 ```
 

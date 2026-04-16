@@ -1,26 +1,26 @@
 <div align="center">
 
-# 🪨 RepoStrata
+# 🔍 DeepDecode · 深度解码
 
-### *Peel back the layers. Understand the code.*
-### *逐层剖析，读懂代码背后的真正逻辑。*
+### *From paper claim to operator-level code — understand the why behind every line.*
+### *从论文创新点到算子级代码 · 解码任务与代码之间的内在逻辑 · 为研究者打造的代码学习工具*
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-7%20Skills-blueviolet?logo=anthropic&logoColor=white)](https://claude.ai/code)
-[![Stars](https://img.shields.io/github/stars/noxinsun-source/RepoStrata?style=social)](https://github.com/noxinsun-source/RepoStrata)
+[![Stars](https://img.shields.io/github/stars/noxinsun-source/DeepDecode?style=social)](https://github.com/noxinsun-source/DeepDecode)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Obsidian](https://img.shields.io/badge/Obsidian-Ready-7C3AED?logo=obsidian&logoColor=white)](https://obsidian.md)
 [![VS Code](https://img.shields.io/badge/VS%20Code-Ready-007ACC?logo=visualstudiocode&logoColor=white)](https://code.visualstudio.com)
 
 **English** · [中文](#-中文说明)
 
-> A suite of **7 Claude Code skills** that decompose any GitHub repository into layered understanding —  
-> from high-level architecture down to why each line of code exists.  
-> Auto-discovers the paper, auto-locates innovation code, generates L4 line-by-line task↔code tables.  
+> **DeepDecode** is a suite of **7 Claude Code skills** that bridge research papers and their implementation —  
+> auto-discovering the paper, locating innovation functions, and generating **operator-level L4 task↔code tables**  
+> that explain *why each expression exists*, not just what it does.
 >
-> **One command. Full pipeline. Any repo size.**
+> **One command. Any GitHub repo. No paper URL needed.**
 
 ```
-/full-analysis https://github.com/stanford-oval/storm --paper https://arxiv.org/abs/2402.14207
+/full-analysis https://github.com/DEEP-PolyU/LinearRAG
 ```
 
 </div>
@@ -29,7 +29,7 @@
 
 ## 📖 Table of Contents
 
-- [What is RepoStrata?](#-what-is-repostrata)
+- [What is DeepDecode?](#-what-is-deepdecode)
 - [The 10 Skills](#-the-10-skills)
 - [Full Pipeline](#-full-pipeline)
 - [Installation](#-installation)
@@ -41,9 +41,9 @@
 
 ---
 
-## 🔍 What is RepoStrata?
+## 🔍 What is DeepDecode?
 
-Most people read papers and then struggle to connect them to code. RepoStrata bridges that gap with a structured, multi-layer pipeline:
+Most people read papers and then struggle to connect them to code. DeepDecode bridges that gap with a structured, multi-layer pipeline:
 
 | Layer | What it reveals |
 |-------|----------------|
@@ -54,7 +54,7 @@ Most people read papers and then struggle to connect them to code. RepoStrata br
 | **L5 Innovation** | Which functions implement which paper contribution claims |
 | **L6 Decision** | Why each line of code exists — task↔code mapping |
 
-**Core innovation**: Unlike grep-based tools, RepoStrata uses **Python AST static analysis** to extract real function signatures, parameter types, return types, and call relationships — no code execution, no extra dependencies.
+**Core innovation**: Unlike grep-based tools, DeepDecode uses **Python AST static analysis** to extract real function signatures, parameter types, return types, and call relationships — no code execution, no extra dependencies.
 
 ---
 
@@ -162,31 +162,31 @@ After boilerplate filter (70%): handles ~30,000 lines in one pass
 
 ```bash
 # Clone the whole suite into your vault's skills directory
-git clone https://github.com/noxinsun-source/RepoStrata \
-  "/path/to/your/vault/.claude/skills/RepoStrata"
+git clone https://github.com/noxinsun-source/DeepDecode \
+  "/path/to/your/vault/.claude/skills/DeepDecode"
 
 # Install individual skills into .claude/skills/ root
 # (required for Claude Code to discover them as slash commands)
-cd "/path/to/your/vault/.claude/skills/RepoStrata"
+cd "/path/to/your/vault/.claude/skills/DeepDecode"
 bash install.sh "/path/to/your/vault/.claude/skills/"
 ```
 
 ### Option B — Standalone Claude Code
 
 ```bash
-git clone https://github.com/noxinsun-source/RepoStrata \
-  ~/.claude/skills/RepoStrata
+git clone https://github.com/noxinsun-source/DeepDecode \
+  ~/.claude/skills/DeepDecode
 
-bash ~/.claude/skills/RepoStrata/install.sh ~/.claude/skills/
+bash ~/.claude/skills/DeepDecode/install.sh ~/.claude/skills/
 ```
 
 ### Option C — Manual (copy skill folders)
 
 ```bash
 # Copy each skill folder individually
-cp -r RepoStrata/skills/full-analysis  ~/.claude/skills/
-cp -r RepoStrata/skills/repo-preflight ~/.claude/skills/
-cp -r RepoStrata/skills/repo-map       ~/.claude/skills/
+cp -r DeepDecode/skills/full-analysis  ~/.claude/skills/
+cp -r DeepDecode/skills/repo-preflight ~/.claude/skills/
+cp -r DeepDecode/skills/repo-map       ~/.claude/skills/
 # ... etc
 ```
 
@@ -198,7 +198,7 @@ Open Claude Code and type `/full-analysis` — if it shows the help text, instal
 
 ## 🖥️ Platform Guide: Where to Run
 
-RepoStrata works in **any environment where Claude Code runs**. Here's how each platform works and which is best for you.
+DeepDecode works in **any environment where Claude Code runs**. Here's how each platform works and which is best for you.
 
 ---
 
@@ -411,7 +411,7 @@ Paper ↔ Code Mapping Table:
 
 ## 📐 Context Window Strategy
 
-A large ML repo can have 50k–500k lines of code — far beyond any LLM's context window. RepoStrata's approach: **measure first, then read only what matters**.
+A large ML repo can have 50k–500k lines of code — far beyond any LLM's context window. DeepDecode's approach: **measure first, then read only what matters**.
 
 | Skill | What it reads | What it skips | Tokens |
 |-------|--------------|---------------|--------|
@@ -430,7 +430,7 @@ A large ML repo can have 50k–500k lines of code — far beyond any LLM's conte
 ## 🗂️ Repository Structure
 
 ```
-RepoStrata/
+DeepDecode/
 ├── README.md
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
@@ -487,7 +487,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 🇨🇳 中文说明
 
-### RepoStrata 是什么？
+### DeepDecode 是什么？
 
 **7 个 Claude Code Skill** 组成的代码分析套件，能将任意 GitHub 仓库分层剖析。只给 GitHub URL，自动找论文，自动定位创新代码，生成逐行"为什么"对照表。
 
@@ -512,16 +512,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **Obsidian vault 用户**：
 ```bash
-git clone https://github.com/noxinsun-source/RepoStrata \
-  "/path/to/vault/.claude/skills/RepoStrata"
-bash "/path/to/vault/.claude/skills/RepoStrata/install.sh" \
+git clone https://github.com/noxinsun-source/DeepDecode \
+  "/path/to/vault/.claude/skills/DeepDecode"
+bash "/path/to/vault/.claude/skills/DeepDecode/install.sh" \
   "/path/to/vault/.claude/skills/"
 ```
 
 **独立 Claude Code 用户**：
 ```bash
-git clone https://github.com/noxinsun-source/RepoStrata ~/.claude/skills/RepoStrata
-bash ~/.claude/skills/RepoStrata/install.sh ~/.claude/skills/
+git clone https://github.com/noxinsun-source/DeepDecode ~/.claude/skills/DeepDecode
+bash ~/.claude/skills/DeepDecode/install.sh ~/.claude/skills/
 ```
 
 ### 使用平台对比
@@ -556,8 +556,8 @@ Phase 5: 综合报告
 **Built for researchers who read code as seriously as papers.**
 **为那些像认真读论文一样认真读代码的研究者而生。**
 
-⭐ Star this repo if RepoStrata helped you understand a codebase!
+⭐ Star this repo if DeepDecode helped you understand a codebase!
 
-[🐛 Report Issue](https://github.com/noxinsun-source/RepoStrata/issues) · [💡 Request Feature](https://github.com/noxinsun-source/RepoStrata/issues) · [📄 Examples](examples/)
+[🐛 Report Issue](https://github.com/noxinsun-source/DeepDecode/issues) · [💡 Request Feature](https://github.com/noxinsun-source/DeepDecode/issues) · [📄 Examples](examples/)
 
 </div>

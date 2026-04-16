@@ -35,7 +35,7 @@ description: L1 architecture scan. Generates a file-tree overview with one-line 
 
 ```bash
 git clone --depth=1 --filter=blob:none --sparse \
-  https://github.com/[user]/[repo] /tmp/repostrata-[repo]/
+  https://github.com/[user]/[repo] /tmp/deepdecode-[repo]/
 ```
 
 `--filter=blob:none --sparse`：只下载文件树，不下载文件内容。速度极快，任意大小仓库均适用。
@@ -43,7 +43,7 @@ git clone --depth=1 --filter=blob:none --sparse \
 ### Step 2：生成文件树
 
 ```bash
-find /tmp/repostrata-[repo]/ \
+find /tmp/deepdecode-[repo]/ \
   -type f \( -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.java" \) \
   | grep -vE "__pycache__|node_modules|\.git|test_|\.pyc" \
   | sort

@@ -1,6 +1,6 @@
 # Output Templates
 
-Standard templates used across all RepoStrata skills for consistent output formatting.
+Standard templates used across all DeepDecode skills for consistent output formatting.
 
 ---
 

@@ -5,7 +5,7 @@ description: Innovation scanner with automatic paper discovery. Given only a Git
 
 # /inno-scan — 创新点定位（含论文自动发现）
 
-**定位**：RepoStrata 的核心技能。**只给 GitHub URL，自动找论文，自动定位创新函数。**
+**定位**：DeepDecode 的核心技能。**只给 GitHub URL，自动找论文，自动定位创新函数。**
 
 论文获取三级降级：README 扫描 → Web 搜索 → 用户提供/代码推断。  
 找到论文后，用 Grep（非全文读取）精准定位实现每条创新点的函数。
@@ -45,11 +45,11 @@ description: Innovation scanner with automatic paper discovery. Given only a Git
 
 ```bash
 git clone --depth=1 --filter=blob:none --sparse \
-  [REPO_URL] /tmp/repostrata-[repo名]/
+  [REPO_URL] /tmp/deepdecode-[repo名]/
 
 # 初始 sparse checkout：只取文件树 + README
-git -C /tmp/repostrata-[repo名]/ sparse-checkout init
-git -C /tmp/repostrata-[repo名]/ checkout
+git -C /tmp/deepdecode-[repo名]/ sparse-checkout init
+git -C /tmp/deepdecode-[repo名]/ checkout
 ```
 
 ---
@@ -66,13 +66,13 @@ git -C /tmp/repostrata-[repo名]/ checkout
 
 ```bash
 # 全量检出 README
-git -C /tmp/repostrata-[repo名]/ sparse-checkout set README.md README.rst
-git -C /tmp/repostrata-[repo名]/ checkout
+git -C /tmp/deepdecode-[repo名]/ sparse-checkout set README.md README.rst
+git -C /tmp/deepdecode-[repo名]/ checkout
 
 # 提取论文链接
 grep -oP \
   'https?://arxiv\.org/(abs|pdf)/[\d\.v]+|https?://aclanthology\.org/[\w\.\-]+|https?://openreview\.net/forum\?id=[\w\-]+|https?://proceedings\.mlr\.press/\S+' \
-  /tmp/repostrata-[repo名]/README.md | head -5
+  /tmp/deepdecode-[repo名]/README.md | head -5
 ```
 
 找到 → 告知用户"在 README 中发现论文链接：[URL]"，进入 Step 2。
@@ -184,7 +184,7 @@ examples/, scripts/, tests/, notebooks/
 ```bash
 # 搜索函数定义、类名、注释中的关键词
 grep -rn "keyword1\|keyword2\|keyword3" \
-  /tmp/repostrata-[repo名]/ \
+  /tmp/deepdecode-[repo名]/ \
   --include="*.py" \
   --exclude-dir="__pycache__" \
   --exclude-dir="tests" \
@@ -195,10 +195,10 @@ grep -rn "keyword1\|keyword2\|keyword3" \
 
 ```bash
 # 定位函数起始行
-grep -n "def keyword1\|class.*keyword" /tmp/repostrata-[repo名]/[file].py
+grep -n "def keyword1\|class.*keyword" /tmp/deepdecode-[repo名]/[file].py
 
 # 只读该函数（从 def 到下一个同级 def，通常 20-100 行）
-sed -n '[start],[end]p' /tmp/repostrata-[repo名]/[file].py
+sed -n '[start],[end]p' /tmp/deepdecode-[repo名]/[file].py
 ```
 
 **无论仓库多大，每次 Grep 读取的内容恒定：~50 行 × 5 个函数 = 3,500 tokens**

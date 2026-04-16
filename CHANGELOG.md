@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to RepoStrata will be documented in this file.
+All notable changes to DeepDecode will be documented in this file.
 
 ## [1.1.0] - 2026-04-17
 
@@ -26,7 +26,7 @@ The new 4-skill architecture ensures any skill works on any size repo.
 ## [1.0.0] - 2026-04-16
 
 ### Added
-- Initial release as `PaperTrace` (renamed to `RepoStrata` in v1.1.0)
+- Initial release as `PaperTrace` (renamed to `DeepDecode` in v1.1.0)
 - Single `/analyze-repo` skill with 4-layer analysis (L1–L4)
 - Innovation Localization concept: paper claims → code mapping
 - Boilerplate detection to filter standard ML infrastructure

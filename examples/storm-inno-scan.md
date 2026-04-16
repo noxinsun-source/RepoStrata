@@ -3,7 +3,7 @@ date: 2026-04-17
 repo: https://github.com/stanford-oval/storm
 paper: https://arxiv.org/abs/2402.14207
 skill: inno-scan
-generated_by: RepoStrata
+generated_by: DeepDecode
 ---
 
 # 🎯 Innovation Scan：stanford-oval/storm

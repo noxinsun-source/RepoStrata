@@ -1,5 +1,5 @@
 #!/bin/bash
-# RepoStrata installer
+# DeepDecode installer
 # Usage: bash install.sh [target_skills_dir]
 # Example: bash install.sh ~/.claude/skills/
 # Example: bash install.sh "/Users/me/Documents/Obsidian Vault/.claude/skills/"
@@ -9,7 +9,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-$HOME/.claude/skills}"
 
-echo "🪨 RepoStrata Installer"
+echo "🔍 DeepDecode Installer"
 echo "Installing skills to: $TARGET"
 echo ""
 

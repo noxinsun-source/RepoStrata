@@ -1,6 +1,6 @@
-# Contributing to RepoStrata
+# Contributing to DeepDecode
 
-Thank you for your interest in improving RepoStrata!
+Thank you for your interest in improving DeepDecode!
 
 ## Ways to Contribute
 

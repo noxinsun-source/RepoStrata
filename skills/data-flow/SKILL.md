@@ -125,7 +125,7 @@ def trace_data_flow(entry_file, entry_func, repo_path):
 result = trace_data_flow(sys.argv[1], sys.argv[2], sys.argv[3])
 print(json.dumps(result, indent=2))
 EOF
-engine.py run /tmp/repostrata-storm/
+engine.py run /tmp/deepdecode-storm/
 ```
 
 ### Step 3：生成三种可视化

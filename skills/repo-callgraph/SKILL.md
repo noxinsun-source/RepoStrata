@@ -42,12 +42,12 @@ description: AST-based structural analysis. Extracts function signatures (param 
 
 ```bash
 git clone --depth=1 --filter=blob:none --sparse \
-  [REPO_URL] /tmp/repostrata-[repo名]/
+  [REPO_URL] /tmp/deepdecode-[repo名]/
 
 # 检出目标 Python 文件
-git -C /tmp/repostrata-[repo名]/ sparse-checkout set \
+git -C /tmp/deepdecode-[repo名]/ sparse-checkout set \
   [file1.py] [file2.py] ...
-git -C /tmp/repostrata-[repo名]/ checkout
+git -C /tmp/deepdecode-[repo名]/ checkout
 ```
 
 若未指定 `--files`，先获取文件树，过滤 boilerplate 后确定目标文件。
