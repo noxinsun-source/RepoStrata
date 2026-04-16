@@ -5,29 +5,32 @@
 ### *Peel back the layers. Understand the code.*
 ### *逐层剖析，读懂代码背后的真正逻辑。*
 
-[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-4%20Skills-blueviolet?logo=anthropic&logoColor=white)](https://claude.ai/code)
+[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-6%20Skills-blueviolet?logo=anthropic&logoColor=white)](https://claude.ai/code)
 [![Stars](https://img.shields.io/github/stars/noxinsun-source/RepoStrata?style=social)](https://github.com/noxinsun-source/RepoStrata)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Obsidian](https://img.shields.io/badge/Obsidian-Compatible-7C3AED?logo=obsidian&logoColor=white)](https://obsidian.md)
 
 **English** | [中文](#中文说明)
 
-> A suite of 4 Claude Code skills that decompose any GitHub repository into layered understanding —  
+> A suite of 6 Claude Code skills that decompose any GitHub repository into layered understanding —  
 > from high-level architecture down to why each line of code exists.  
-> Core feature: **Innovation Localization** — automatically maps paper contribution claims to the exact functions that implement them.
+> Core feature: **Innovation Localization** — automatically maps paper contribution claims to the exact functions that implement them.  
+> Built-in **Preflight system** — measures repo size first, then picks the right strategy so you never hit context limits.
 
 </div>
 
 ---
 
-## 🧩 The 4 Skills
+## 🧩 The 6 Skills
 
 | Skill | Command | What it does | Context cost |
 |-------|---------|-------------|-------------|
+| **Preflight** | `/repo-preflight` | 🆕 Size check → tier assignment → concrete task plan. **Always run first.** | < 3k tokens |
 | **Repo Map** | `/repo-map` | L1: File tree + role summaries. Works on ANY size repo. | ~6k tokens |
 | **Inno Scan** | `/inno-scan` | Maps paper claims → exact code functions via targeted grep, never reads boilerplate | ~6k tokens |
 | **Code Explain** | `/code-explain` | L3 flowchart + L4 line-by-line decision table for ONE function | ~7k tokens |
 | **Repo Compare** | `/repo-compare` | Side-by-side comparison of two repos solving the same problem | ~8k tokens |
+| **Merge Analysis** | `/merge-analysis` | 🆕 Merges partial scans (for Large/Huge repos) into one final report | ~5k tokens |
 
 Each skill is **independently usable** and **context-efficient** — designed to handle repos of any size without hitting LLM context limits.
 
@@ -47,7 +50,16 @@ git clone https://github.com/noxinsun-source/RepoStrata \
 Then in Claude Code:
 
 ```
-# Step 1: Get the lay of the land (always start here)
+# ── Always start here ──────────────────────────────────────────
+# Step 0: Preflight — measure size, get a concrete task plan
+/repo-preflight https://github.com/stanford-oval/storm
+
+# RepoStrata will output something like:
+# 🟡 Small tier · 87 files · ~18,400 lines · ~42k tokens
+# → Safe for single-pass analysis. Recommended commands:
+
+# ── Follow the generated plan ──────────────────────────────────
+# Step 1: Architecture overview
 /repo-map https://github.com/stanford-oval/storm
 
 # Step 2: Find the paper's core innovations in code
@@ -59,9 +71,11 @@ Then in Claude Code:
   --func QuestionAsker.ask \
   --paper https://arxiv.org/abs/2402.14207
 
-# Compare two competing implementations
-/repo-compare https://github.com/stanford-oval/storm \
-  https://github.com/OSU-NLP-Group/HippoRAG
+# ── For Large repos (auto-detected by /repo-preflight) ─────────
+# Preflight generates a batched plan. Execute each batch separately:
+/inno-scan [URL] --paper [P] --scope src/retrieval/   # batch 1
+/inno-scan [URL] --paper [P] --scope src/generation/  # batch 2
+/merge-analysis [repo-name]                           # combine results
 ```
 
 ---
@@ -96,9 +110,31 @@ Paper ↔ Code Mapping Table
 
 ---
 
-## 📐 Why 4 Separate Skills? (The Context Window Problem)
+## 📏 Preflight Tiers — Intelligent Size-Based Strategy
 
-A typical ML research repo has 50–500 source files. Reading everything at once would exceed any LLM's context window. RepoStrata's solution: **each skill reads only what it needs**.
+Before doing any analysis, `/repo-preflight` runs pure bash statistics (no file reads), assigns a tier, and generates a ready-to-run task plan:
+
+| Tier | Size | Token Estimate | Strategy |
+|------|------|---------------|----------|
+| 🟢 **Nano** | < 50 files / < 5k lines | < 15k | Full analysis in one pass |
+| 🟡 **Small** | 50–150 files / 5–20k lines | 15–50k | Selective read, top 20 non-boilerplate files |
+| 🟠 **Medium** | 150–400 files / 20–60k lines | 50–120k | Grep-only + 50-line snippets per hit |
+| 🔴 **Large** | 400–1000 files / 60–200k lines | > 120k | **Split by module** — run each batch separately, save incrementally |
+| ⚫ **Huge** | > 1000 files / > 200k lines | — | Paper-keyword-guided grep only, no full reads |
+
+**Token budget math:**
+```
+Claude safe analysis budget:  ~120,000 tokens
+Average line of code:         ~13 tokens
+Max safe full read:           ~9,200 lines
+After boilerplate filtering (70%): handles up to ~30,000 lines in one pass
+```
+
+---
+
+## 📐 Why 6 Separate Skills? (The Context Window Problem)
+
+A typical ML research repo has 50–500 source files and 20k–200k lines of code. Reading everything at once would exceed any LLM's context window. RepoStrata's solution: **each skill reads only what it needs, and Preflight tells you exactly what to run**.
 
 | Skill | What it reads | What it skips |
 |-------|--------------|---------------|
@@ -149,14 +185,18 @@ RepoStrata/
 ├── LICENSE
 │
 ├── skills/
+│   ├── repo-preflight/
+│   │   └── SKILL.md          ← /repo-preflight  ★ start here
 │   ├── repo-map/
-│   │   └── SKILL.md          ← /repo-map skill
+│   │   └── SKILL.md          ← /repo-map
 │   ├── inno-scan/
-│   │   └── SKILL.md          ← /inno-scan skill  ★ core
+│   │   └── SKILL.md          ← /inno-scan  ★ core
 │   ├── code-explain/
-│   │   └── SKILL.md          ← /code-explain skill
-│   └── repo-compare/
-│       └── SKILL.md          ← /repo-compare skill
+│   │   └── SKILL.md          ← /code-explain
+│   ├── repo-compare/
+│   │   └── SKILL.md          ← /repo-compare
+│   └── merge-analysis/
+│       └── SKILL.md          ← /merge-analysis  (for Large/Huge repos)
 │
 ├── references/
 │   ├── BOILERPLATE_PATTERNS.md   ← What to skip (train/eval/logger/etc.)
